@@ -1,0 +1,18 @@
+﻿body {
+    padding-top: 56px;
+    background-color: #f9f9f9;
+}
+
+table.table table-striped table-bordered table-hover {
+    table-layout: auto;
+    width: 100%;
+}
+
+
+.navbar-brand {
+    font-family: 'Merienda', cursive;
+}
+.first-page {
+    font-family: 'Amatic SC', cursive;
+    font-size: 30px;
+}

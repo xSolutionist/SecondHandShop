@@ -1,0 +1,88 @@
+﻿@page
+@model SecondHandWebShop.Pages.ProductModel
+@{
+}
+
+<div class="container">
+
+    <div class="row">
+        <!-- /.col-lg-3 -->
+        <div class="col-lg-1">
+            <hr />  
+            <a href="Catalog?Category=@Model.Product.Category">@Model.Product.Category</a>
+        </div>
+        <div class="col-lg-6">
+            <div class="card mt-4">
+                <img class="card-img-top img-fluid" src="@Model.Product.ImageUrl" alt="Produkten">
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="card-body">
+                <h3 class="card-title">@Model.Product.Name</h3>
+                <p class="card-text">@Model.Product.Description</p>
+
+                @if (Model.Product.Discount > 0)
+                {
+                    Model.Product.DiscountedPrice = Model.Product.Price - (Model.Product.Price * Model.Product.Discount) / 100;
+                    <h5><s>@Math.Round(Model.Product.Price) kr</s> @Math.Round(Model.Product.DiscountedPrice) kr </h5>
+                    <p style="color:palevioletred">@Math.Round(Model.Product.Discount)% OFF</p>
+                }
+                else
+                {
+                    <h5>@Math.Round(Model.Product.Price) kr</h5>
+                }
+                <br />
+                @if (Model.AlreadyInCart() && Model.Product.Category != "Merchandise")
+                {
+                    <a class="btn btn-outline-success btn-lg btn-block disabled">Redan i varukorgen</a>
+                }
+                else if (Model.Product.StockBalance > 0)
+                {
+                    <a asp-page="Cart" asp-page-handler="buy" asp-route-id="@Model.ID" class="btn btn-success btn-lg btn-block">Lägg till i varukorgen</a>
+                }
+                else if (Model.Product.StockBalance == 0)
+                {
+                    if (Model.Product.Category == "Merchandise")
+                    {
+                        <a href="#" class="btn btn-danger btn-lg btn-block disabled">Tillfälligt slut</a>
+                    }
+                    else
+                    {
+                        <a href="#" class="btn btn-danger btn-lg btn-block disabled">Slutsåld</a>
+                    }
+                }
+                <br />
+                <div class="card">
+                    <div class="card-header">
+                        Produkt information
+                    </div>
+                    <div class="card-body">
+                        <p>Storlek: @Model.Product.Size</p>
+                        <hr />
+                        <p>Material: @Model.Product.Material</p>
+                        @if (Model.Product.StockBalance > 1)
+                        {
+                            <hr />
+                            <p>Lagersaldo: @Model.Product.StockBalance</p>
+                        }
+                        <hr />
+                        <p>Märke: @Model.Product.Brand</p>
+                    </div>
+                </div>
+                <br />
+                <p>Dela</p>
+                <a href="#" id="facebook" class="btn btn-social-icon btn-facebook">
+                    <span class="fa fa-facebook"></span>
+                </a>
+                <a href="#" id="twitter" class="btn btn-social-icon btn-twitter">
+                    <span class="fa fa-twitter"></span>
+                </a>
+            </div>
+
+        </div>
+        <!-- /.col-lg-9 -->
+
+    </div>
+
+</div>
+<script src="~/js/Share.js"></script>
